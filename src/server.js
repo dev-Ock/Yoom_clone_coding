@@ -43,8 +43,17 @@ wss.on("connection", (socket) => {
     console.log("Disconnected to the Brwoser");
   });
   socket.on("message", (message) => {
-    console.log(message.toString());
-    const stringMessage = message.toString();
+    const stringMessage = JSON.parse(message);
+    console.log(stringMessage);
+    // switch (stringMessage.type) {
+    //   case "nick":
+    //     const nickname = stringMessage.payload;
+
+    //   case "message":
+    //     const content = stringMessage.payload;
+
+    // }
+
     allMember.forEach((all) => all.send(stringMessage));
   });
 });
