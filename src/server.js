@@ -16,7 +16,7 @@ app.get("/*", (req, res, next) => {
 });
 
 const handleListen = () => {
-  console.log("Listening on http://localhost:3000");
+  console.log("Listening on http://localhost:3100");
 };
 
 // app.listen(3000, handleListen);
@@ -43,19 +43,12 @@ wss.on("connection", (socket) => {
     console.log("Disconnected to the Brwoser");
   });
   socket.on("message", (message) => {
-    const stringMessage = JSON.parse(message);
+    const stringMessage = JSON.parse(message); // socket으로 (front에서 보낸 rare객체를) message로 받아버리기~~. JSON 문자열을 object로 변환.
     console.log(stringMessage);
-    // switch (stringMessage.type) {
-    //   case "nick":
-    //     const nickname = stringMessage.payload;
-
-    //   case "message":
-    //     const content = stringMessage.payload;
-
-    // }
-
-    allMember.forEach((all) => all.send(stringMessage));
+    allMember.forEach((all) =>
+      all.send(`${stringMessage.nick} : ${stringMessage.message}`) // 받은 메시지의 nick과 message를 모든 사람들에게 보내버리기~~
+    );
   });
 });
 
-server.listen(3000, handleListen);
+server.listen(3100, handleListen);
